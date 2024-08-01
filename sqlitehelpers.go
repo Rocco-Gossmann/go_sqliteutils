@@ -22,7 +22,7 @@ var (
 
 // Sets up a sqlite db, if none existed before
 // @param filename - path to the sqlite-database file
-//  @param version - version number that is expected from the existing DB File
+// @param version - version number that is expected from the existing DB File
 // @param updateHandler - function, that will be called if the current database version does not match the expected versxion
 func InitDBFile(filename string, version uint, updateHandler func(db *sql.DB, isVersion uint, shouldBeVersion uint)) {
 
@@ -102,8 +102,15 @@ func RowQueryStatement(statement string, args ...any) (*sql.Row, error) {
 	return stmt.QueryRow(args...), nil
 }
 
-// Checks if an error is related to a Unique Contraint (aka. If the element inserted already exists)
+// @depricated use IsUniqueConstraintError instead.
+// (this was a spelling error, just left it in to not break existing things for now)
+// will be removed in the future
 func IsUniqueContraintError(err error) bool {
+	return IsUniqueConstraintError(err)
+}
+
+// Checks if an error is related to a Unique Contraint (aka. If the element inserted already exists)
+func IsUniqueConstraintError(err error) bool {
 	if err == nil {
 		return false
 	}
@@ -112,6 +119,7 @@ func IsUniqueContraintError(err error) bool {
 
 // Helpers
 // ==============================================================================
+
 func createMetaTable() {
 	if hasMetaTable {
 		return
