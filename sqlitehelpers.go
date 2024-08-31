@@ -66,6 +66,7 @@ func DeInitDB() {
 	if db != nil {
 		db.Close()
 		db = nil
+		hasMetaTable = false
 	}
 }
 
