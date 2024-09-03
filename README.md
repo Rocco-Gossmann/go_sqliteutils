@@ -13,7 +13,7 @@ go get github.com/rocco-gossmann/go_sqliteutils
 ## The `updateHandler`
 Let's say for example, we have a database that was rolled out with a required version 1
 
-Now we wan't to change the structure, but we can't just ignore all the People,
+Now we want to change the structure, but we can't just ignore all the People,
 who may have used version 1 until now. Just deleting all their data and starting new
 would be an option, but extremely user unfriendly.
 
@@ -23,8 +23,8 @@ By ending each `case` with a `fallthrough`,
 the case that follows after is treated as part of the case that has the fallthrough.
 
 That way the updater can jump into any case that applies to the users current DB-Version
-and then slide down to the end. Resulting in every DB ending, at the current version,
-no matter on what version it started.
+and then slide down to the end. Resulting in every DB ending at the current version,
+no matter on what version it started on.
 
 ## Code Example:
 
@@ -56,11 +56,10 @@ func OpenMyDB() go_sqliteutils.DBRessource {
                     return err
                 }
 
-                //we wan't slide through to next version until we reached the end
+                //we want to slide through to the next version until we reached the end
                 fallthrough                 
 
             // Update starts here, if the User has already data for version 1 of the DB
-            // Updates the State to Version 2
             case 1:
                 if _, err := tx.Exec("CREATE TABLE tab_world ( ... )"); err != nil {
                     return err
@@ -97,7 +96,7 @@ func main() {
 # Database Interaction
 
 For any more complex Database Interaction, than what the Key=>Value Store offers,
-There must always be a Transaction present. The Transaction then provides access
+There must always be a Transaction opened. The Transaction then provides access
 to the `mysql.Tx`s - Methods. 
 
 ```go
@@ -129,8 +128,8 @@ if err = tx.Commit(); err != nil {
 
 # The Key=>Value Store
 
-this Lib comes with a Key => Value Store build in.
-after you opened your DB you can use the following functions.
+This lib comes with a Key => Value Store build in.
+after you opened your DB you can use the following methods.
 
 To save / change values:
 ```go
