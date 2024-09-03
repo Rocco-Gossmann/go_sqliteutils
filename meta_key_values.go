@@ -13,7 +13,11 @@ var keyBlackList = map[string]struct{}{
 }
 
 var MetaKeyAccessViolation = errors.New("Tried to access a reserved key")
-var NoResultsForKey = errors.New("No results for this Key")
+var noResultsForKey = errors.New("No results for this Key")
+
+func (db *DatabaseRessource) IsNoResultForKey(err error) bool {
+	return err == noResultsForKey
+}
 
 func (db *DatabaseRessource) SetValue(key, value string) error {
 
@@ -53,7 +57,7 @@ func (db *DatabaseRessource) GetValue(key string) (val string, err error) {
 
 	err = db.db.QueryRow("SELECT value FROM _meta WHERE key = ?", key).Scan(&val)
 	if err != nil && err.Error() == SQLITE_NO_ROWS {
-		err = NoResultsForKey
+		err = noResultsForKey
 	}
 
 	return

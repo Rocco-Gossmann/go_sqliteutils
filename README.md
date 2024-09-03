@@ -152,7 +152,7 @@ output, err = myDB.GetValue("myKey")
 To Check if a value exists, you can use the Error-Message returned by `GetValue`
 
 ```go
-if err == go_sqliteutils.NoResultsForKey {
+if myDB.IsNoResultForKey(err) {
     fmt.Println("no value registered for `myKey`")
 
 } else if err != nil {
