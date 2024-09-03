@@ -2,10 +2,7 @@ module github.com/rocco-gossmann/go_sqliteutils
 
 go 1.22.2
 
-require (
-	github.com/rocco-gossmann/go_utils v0.1.1
-	modernc.org/sqlite v1.31.1
-)
+require modernc.org/sqlite v1.32.0
 
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
