@@ -1,7 +1,7 @@
 # Go SqliteUtils
 
-A small lib to help with keeping track of an SQLite-Databases bersion and upgrades.
-It is inspired by how IndexedDB handles it's structural upgrades.
+A small lib to help with keeping track of an SQLite-Databases version and upgrades.
+It is inspired by how IndexedDB in the Browser handles it's structural upgrades.
 
 # install
 ```bash
@@ -11,21 +11,20 @@ go get github.com/rocco-gossmann/go_sqliteutils
 # usage
 
 ## The `updateHandler`
-Lets say for example, we have a database that was rolled out with a required version 1
+Let's say for example, we have a database that was rolled out with a required version 1
 
 Now we wan't to change the structure, but we can't just ignore all the People,
 who may have used version 1 until now. Just deleting all their data and starting new
 would be an option, but extremely user unfriendly.
 
 The best idea here is a Switch-Slide.
-Each Possible DB Version then becomes a `case` in that `switch` - statement.
-
-By ending each `case` statement with a `fallthrough`
+Each Possible DB Version then becomes a `case` in that `switch`.
+By ending each `case` with a `fallthrough`,
 the case that follows after is treated as part of the case that has the fallthrough.
 
-That way the Updater can jump into any case that applies to the users current DB-Version
-and then slide down to the end. Guarantying, that after the update, the DB is up to date.
-No matter on what version it started.
+That way the updater can jump into any case that applies to the users current DB-Version
+and then slide down to the end. Resulting in every DB ending, at the current version,
+no matter on what version it started.
 
 ## Code Example:
 
@@ -34,6 +33,8 @@ package main
 
 import "github.com/rocco-gossmann/go_sqliteutils"
 
+// It is always good, to wrap your initialization into an extra function.
+// these can become big.
 func OpenMyDB() go_sqliteutils.DBRessource {
  
     const databaseFile = "mysqlitefile.db";
@@ -118,7 +119,7 @@ if err != nil {
     return
 }
 
-// After all the changes in this scope are done without issue, 
+// After all the changes in this scope are done without issue 
 // Commit TX to save your Changes to the DB
 if err = tx.Commit(); err != nil {
     panic(err)
