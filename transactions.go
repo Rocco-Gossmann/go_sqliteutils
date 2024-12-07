@@ -8,6 +8,10 @@ func (db *DatabaseRessource) Begin() (*sql.Tx, error) {
 		panic("can't call Begin on nil")
 	}
 
+	if db.db == nil {
+		panic("can't Begin a transaction for an already closed database")
+	}
+
 	return db.db.Begin()
 
 }
