@@ -22,4 +22,7 @@ type DBRessource interface {
 
 	// Starts an SQL-Transaction, and allows for manipulating Tables
 	Begin() (*sql.Tx, error)
+
+	// Tells you if Close() was successfully called on this instance
+	Closed() bool
 }

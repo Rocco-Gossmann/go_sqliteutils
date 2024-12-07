@@ -1,18 +1,20 @@
 package go_sqliteutils
 
-func (db *DatabaseRessource) Close() error {
-	if db == nil {
+func (me *DatabaseRessource) Close() (err error) {
+	if me == nil {
 		panic("can't Close nil")
 	}
 
-	db.hasMetaTable = false
-	err := db.db.Close()
+	me.hasMetaTable = false
+	err = me.db.Close()
 
-	if err != nil {
-		return err
-	} else {
-		db.db = nil
+	if err == nil {
+		me.db = nil
 	}
 
-	return nil
+	return
+}
+
+func (me *DatabaseRessource) Closed() bool {
+	return me.db == nil
 }
